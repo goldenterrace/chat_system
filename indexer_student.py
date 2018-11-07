@@ -1,4 +1,5 @@
 import pickle
+# wen's solution
 
 
 class Index:
@@ -45,6 +46,8 @@ class Index:
         # IMPLEMENTATION
         # ---- start your code ---- #
         pass
+        self.msgs.append(m)
+        self.total_msgs += 1
 
         # ---- end of your code --- #
         return
@@ -63,6 +66,13 @@ class Index:
         # IMPLEMENTATION
         # ---- start your code ---- #
         pass
+        words = m.split()
+        self.total_words += len(words)
+        for w in words:
+            if w in self.index.keys():
+                self.index[w].append(l)
+            else:
+                self.index[w] = [l, ]
 
         # ---- end of your code --- #
         return
@@ -84,6 +94,8 @@ class Index:
         # IMPLEMENTATION
         # ---- start your code ---- #
         pass
+        if term in self.index:
+            msgs = [(line, self.msgs[line]) for line in self.index[term]]
 
         # ---- end of your code --- #
         return msgs
@@ -105,7 +117,9 @@ class PIndex(Index):
         # IMPLEMENTATION
         # ---- start your code ---- #
         pass
-
+        content = open(self.name).readlines()
+        for i in content:
+            self.add_msg_and_index(i)
         # ---- end of your code --- #
         return
 
@@ -136,7 +150,9 @@ class PIndex(Index):
         # IMPLEMENTATION
         # ---- start your code ---- #
         pass
-
+        start = self.int2roman[p] + '.'
+        end = self.int2roman[p + 1] + '.'
+        poem = self.msgs[self.search(start)[0][0]: self.search(end)[0][0]]
         # ---- end of your code --- #
         return poem
 
@@ -145,6 +161,7 @@ if __name__ == "__main__":
     sonnets = PIndex("AllSonnets.txt")
     # the next two lines are just for testing
     p3 = sonnets.get_poem(3)
-    print(p3)
+    import pprint as pp
+    pp.pprint(p3)
     s_love = sonnets.search("love")
-    print(s_love)
+    pp.pprint(s_love)
